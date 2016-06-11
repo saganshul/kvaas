@@ -1,0 +1,65 @@
+{% extends 'oscar/checkout/layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% load promotion_tags %}
+{% load category_tags %}
+
+{% block layout %}
+
+    {% include "partials/nav_accounts.html" %}
+
+    {% include "partials/header.html" %}
+
+
+
+    {% block chat %}
+        <div id="firechat-container" class="clearfix"></div>
+        <button type="button" id="chat-button" onclick="togglechat()" class="btn btn-primary btn-circle btn-lg"><i class="fa fa-comments"></i></button>
+        <script src="{% static "firechat/2.0.0/firebase.js" %}"></script>
+        <script src="{% static "firechat/2.0.0/firechat-default.js" %}"></script>
+        {% if user.is_authenticated %}
+            <script src="{% static "ayur/js/chat_authenticated.js" %}"></script>
+        {% else %}
+            <script src="{% static "ayur/js/chat.js" %}"></script>
+        {% endif %}
+    {% endblock %}
+
+    <div class="container-fluid page">
+        {% block checkout_nav %}{% endblock %}
+       <div class="page_inner">
+            {% include 'partials/alert_messages.html' %}
+
+            <div class="sub-header">
+                <h1>{% block checkout_title %}{% endblock %}</h1>
+            </div>
+
+            <!-- The main nav on checkout pages contain links to modal flatpages -->
+            {% block modal %}
+                {% load flatpages %}
+                {% get_flatpages '/order/' as flatpages %}
+                {% for page in flatpages %}
+                <div id="{{ page.title|slugify }}" class="modal hide fade">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">×</a>
+                        <h3>{{ page.title }}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="large-content">
+                            {{ page.content|safe }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endblock %}
+
+            {% block content %}{% endblock %}
+
+            <div id="promotions">
+                {% for promotion in promotions_page %}
+                    {% render_promotion promotion %}
+                {% endfor %}
+            </div>
+        </div><!-- /page_inner -->
+    </div>
+    {% include "partials/footer.html" %}
+{% endblock %}

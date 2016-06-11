@@ -1,0 +1,16 @@
+{% extends 'oscar/base.html' %}
+{% load staticfiles %}
+
+{% block cdn_scripts %}
+  <!-- jQuery -->
+  <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery-1.9.1.min.js" %}"><\/script>')</script>
+  
+{% endblock %}
+
+{% block extrahead %}
+  <link rel="stylesheet" href="{% static "firechat/2.0.0/firechat-default.css" %}" />
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="{% static "ayur/js/megamenu.js" %}"></script>
+  <script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
+{% endblock %}

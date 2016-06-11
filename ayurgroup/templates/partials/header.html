@@ -1,0 +1,72 @@
+{% load staticfiles %}
+{% load currency_filters %}
+{% load i18n %}
+{% load category_tags %}
+{% load thumbnail %}
+
+<div class="header_bg">
+<div class="container">
+	<div class="header">
+		<div class="logo">
+			<a href="{{ homepage_url }}"><img src="{% static "ayur/images/logo.png" %}" alt="logo"/> </a>
+		</div>
+		<!-- start header_right -->
+		{# Mini-basket wrapped in a block so some templates can now display it #}
+		<div class="header_right">
+  		<ul class="icon1 sub-icon1 profile_img">
+  			<li><a class="active-icon c2" href="{% url 'basket:summary' %}"> </a>
+  				{% include "oscar/basket/partials/basket_quick.html" %}
+  			</li>
+  		</ul>
+  		<ul class="icon1 sub-icon1 profile_img">
+  			<li><a class="active-icon c1" href="#"> </a>
+  				<ul class="sub-icon1 list">
+  					<li><h3>wishlist empty</h3><a href=""></a></li>
+  					<li><p>if items in your wishlit are missing, <a href="">login to your account</a> to view them</p></li>
+  				</ul>
+  			</li>
+  		</ul>
+  		<div class="search">
+				<form method="get" action="{% url 'search:search' %}" >
+					{{ search_form.q }}
+					<input type="submit" value=""/>
+				</form>
+  		</div>
+		    <div class="clearfix"> </div>
+		</div>
+		<!-- start header menu -->
+    <ul class="megamenu skyblue">
+			<li><a class="color1" href="{{ homepage_url }}">Home</a></li>
+			<li class="grid"><a class="color2" href="{% url 'catalogue:index' %}">All products</a>
+				{% category_tree depth=2 as tree_categories %}
+
+				<div class="megapanel">
+					<div class="row">
+						{% if tree_categories %}
+	                    	{% for tree_category, info in tree_categories %}
+								<div class="col1">
+									<div class="h_nav">
+										<h4>{{ tree_category.name }}</h4>
+										<ul>
+											{% thumbnail tree_category.image "320x300" crop="center" as im %}
+                     							<li><a href="{{ tree_category.get_absolute_url }}"><img src="{{im.url}}" alt=""/></a></li>
+                   							{% endthumbnail %}
+										</ul>
+									</div>
+								</div>
+	                        {% endfor %}
+	                    {% endif %}
+					</div>
+					<div class="row">
+						<div class="col2"></div>
+						<div class="col1"></div>
+						<div class="col1"></div>
+						<div class="col1"></div>
+						<div class="col1"></div>
+					</div>
+    				</div>
+				</li>
+		 </ul>
+	</div>
+</div>
+</div>
